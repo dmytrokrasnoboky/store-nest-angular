@@ -1,0 +1,13 @@
+<div class='actions'>
+  <a class='actions-back' (click)='location.back()'>
+    <mat-icon class='actions-icon'>chevron_left</mat-icon>
+    Zurück zum Marktplatz
+  </a>
+</div>
+
+<app-product *ngIf='product'
+             [product]='product'
+             [count]='count'
+             [showDetails]='true'
+             (productQuantityChange)='emitProductQuantityChange(product, $event)'>
+</app-product>

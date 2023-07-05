@@ -1,0 +1,1114 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Hybrid Platform API
+
+servers:
+  - url: http://localhost:8080
+    description: Local server
+  - url: https://api.cannalinkr.com
+    description: Production server
+tags:
+  - name: Login
+    description: Login
+  - name: Buyer
+    description: Actions by the buyer
+  - name: Buyer Orders
+    description: Actions by the buyer for orders
+  - name: Seller
+    description: Actions by the seller
+  - name: Seller Product
+    description: Actions by the seller for products
+  - name: Seller Orders
+    description: Actions by the seller for orders
+paths:
+  /login:
+    post:
+      security: [ ]
+      tags:
+        - Login
+      summary: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+  /browse:
+    get:
+      tags:
+        - Buyer
+      summary: Browse products
+      parameters:
+        - name: pageSize
+          in: query
+          description: Number of products to return
+          required: true
+          schema:
+            type: integer
+            minLength: 5
+            maxLength: 100
+        - name: pageIndex
+          in: query
+          description: Number of products to skip
+          required: true
+          schema:
+            type: integer
+            minLength: 0
+        - name: category
+          in: query
+          description: Category of product
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ProductCategory'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListResponse'
+
+  /products/{productId}:
+    get:
+      tags:
+        - Product
+      summary: Get product
+      parameters:
+        - name: productId
+          in: path
+          description: ID of product to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+  /buyer:
+    post:
+      tags:
+        - Buyer
+      summary: Create buyer account
+      security: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBuyerRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateBuyerResponse'
+
+  /buyer/{buyerId}:
+    get:
+      tags:
+        - Buyer
+      summary: Get buyer account
+      parameters:
+        - name: buyerId
+          in: path
+          description: ID of buyer
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuyerResponse'
+    put:
+      tags:
+        - Buyer
+      parameters:
+        - name: buyerId
+          in: path
+          description: ID of buyer
+          required: true
+          schema:
+            type: string
+      summary: Update buyer account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBuyerRequest'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+
+  /buyer/{buyerId}/orders:
+    get:
+      tags:
+        - Buyer Orders
+      summary: Get all orders for this buyer
+      parameters:
+        - name: buyerId
+          in: path
+          description: ID of buyer
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderResponse'
+    post:
+      tags:
+        - Buyer Orders
+      summary: Create order
+      parameters:
+        - name: buyerId
+          in: path
+          description: ID of buyer
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOrderResponse'
+
+  /buyer/{buyerId}/orders/{orderId}:
+    get:
+      tags:
+        - Buyer Orders
+      summary: Get an order for this buyer
+      parameters:
+        - name: buyerId
+          in: path
+          description: ID of buyer
+          required: true
+          schema:
+            type: string
+        - name: orderId
+          in: path
+          description: ID of order
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+
+  /seller:
+    post:
+      tags:
+        - Seller
+      summary: Create seller account
+      security: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSellerRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateSellerResponse'
+
+  /seller/{sellerId}:
+    get:
+      tags:
+        - Seller
+      summary: Get seller account
+      parameters:
+        - name: sellerId
+          in: path
+          description: ID of seller
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SellerResponse'
+    put:
+      tags:
+        - Seller
+      parameters:
+        - name: sellerId
+          in: path
+          description: ID of seller
+          required: true
+          schema:
+            type: string
+      summary: Update seller account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSellerRequest'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+
+  /seller/{sellerId}/products:
+    post:
+      tags:
+        - Seller Product
+      summary: Create product
+      parameters:
+        - name: sellerId
+          in: path
+          description: ID of seller
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateProductResponse'
+    get:
+      tags:
+        - Seller Product
+      summary: Get all products for this seller
+      parameters:
+        - name: sellerId
+          in: path
+          description: ID of seller
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductResponse'
+
+
+  /seller/{sellerId}/products/{productId}:
+    get:
+      tags:
+        - Seller Product
+      summary: Get product
+      parameters:
+        - name: productId
+          in: path
+          description: ID of product to return
+          required: true
+          schema:
+            type: string
+        - name: sellerId
+          in: path
+          description: ID of seller
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponse'
+    put:
+      tags:
+        - Seller Product
+      summary: Update product
+      parameters:
+        - name: productId
+          in: path
+          description: ID of product to update
+          required: true
+          schema:
+            type: string
+        - name: sellerId
+          in: path
+          description: ID of seller
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProductRequest'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+    delete:
+      tags:
+        - Seller Product
+      summary: Delete product
+      parameters:
+        - name: productId
+          in: path
+          description: ID of product to delete
+          required: true
+          schema:
+            type: string
+        - name: sellerId
+          in: path
+          description: ID of seller
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successful operation
+
+  /seller/{sellerId}/orders:
+    get:
+      tags:
+        - Seller Orders
+      summary: Get all orders for this seller
+      parameters:
+        - name: sellerId
+          in: path
+          description: ID of seller
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderResponse'
+
+  /seller/{sellerId}/orders/{orderId}:
+    get:
+      tags:
+        - Seller Orders
+      summary: Get an order for this seller
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of order
+          required: true
+          schema:
+            type: string
+        - name: sellerId
+          in: path
+          description: ID of seller
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+    put:
+      tags:
+        - Seller Orders
+      summary: Update order
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of order to update
+          required: true
+          schema:
+            type: string
+        - name: sellerId
+          in: path
+          description: ID of seller
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateOrderRequest'
+        required: true
+      responses:
+        '204':
+          description: Successful operation
+
+  /upload:
+    post:
+      tags:
+        - Seller
+      summary: Upload files. E.g. product images
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FormUploadRequest'
+            encoding:
+              file:
+                contentType: application/octet-stream
+              name:
+                contentType: text/plain
+              type:
+                contentType: text/plain
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormUploadResponse'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    CreateBuyerRequest:
+      type: object
+      required:
+        - email
+        - password
+        - address
+        - companyIdentificationNumber
+      properties:
+        email:
+          type: string
+          format: email
+          example: "email@example.com"
+          maxLength: 255
+        password:
+          type: string
+          maxLength: 255
+          example: "password"
+        address:
+          $ref: '#/components/schemas/Address'
+        companyIdentificationNumber:
+          type: string
+          example: "123456789"
+          description: Buyer's company identification number
+    CreateBuyerResponse:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          example: "123456789"
+          description: Buyer's ID
+    UpdateBuyerRequest:
+      type: object
+      required:
+        - email
+        - address
+        - companyIdentificationNumber
+      properties:
+        email:
+          type: string
+          format: email
+          example: "email@example.com"
+          maxLength: 255
+        address:
+          $ref: '#/components/schemas/Address'
+        companyIdentificationNumber:
+          type: string
+          example: "123456789"
+          description: Buyer's company identification number
+    BuyerResponse:
+      type: object
+      required:
+        - id
+        - email
+        - address
+        - companyIdentificationNumber
+      properties:
+        id:
+          type: string
+          example: "123456789"
+          description: Buyer's ID
+        email:
+          type: string
+          format: email
+          example: "test@test.com"
+          maxLength: 255
+        address:
+          $ref: '#/components/schemas/Address'
+        companyIdentificationNumber:
+          type: string
+          example: "123456789"
+          description: Buyer's company identification number
+
+    CreateOrderRequest:
+      type: object
+      required:
+        - shippingAddress
+        - products
+        - sellerId
+      properties:
+        sellerId:
+          type: string
+          example: "123456789"
+          description: The sellerId this order is for
+        shippingAddress:
+          $ref: '#/components/schemas/Address'
+        products:
+          type: array
+          required:
+            - productId
+            - quantity
+          items:
+            type: object
+            required:
+              - productId
+              - quantity
+            properties:
+              productId:
+                type: string
+                example: "123456789"
+                description: Product ID
+              quantity:
+                type: integer
+                format: int32
+                example: 1
+                description: Product quantity
+    CreateOrderResponse:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          example: "123456789"
+          description: Order ID
+    UpdateOrderRequest:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          $ref: '#/components/schemas/OrderStatus'
+
+    CreateSellerRequest:
+      type: object
+      required:
+        - email
+        - password
+        - address
+        - companyIdentificationNumber
+      properties:
+        email:
+          type: string
+          format: email
+          example: "email@example.com"
+          maxLength: 255
+        password:
+          type: string
+          maxLength: 255
+        address:
+          $ref: '#/components/schemas/Address'
+        companyIdentificationNumber:
+          type: string
+          example: "123456789"
+          description: Buyer's company identification number
+    CreateSellerResponse:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          example: "123456789"
+          description: Seller's ID
+    SellerResponse:
+      type: object
+      required:
+        - id
+        - email
+        - address
+        - companyIdentificationNumber
+      properties:
+        id:
+          type: string
+          example: "123456789"
+          description: Buyer's ID
+        email:
+          type: string
+          format: email
+          example: "test@test.com"
+          maxLength: 255
+        address:
+          $ref: '#/components/schemas/Address'
+        companyIdentificationNumber:
+          type: string
+          example: "123456789"
+          description: Seller's company identification number
+    UpdateSellerRequest:
+      type: object
+      required:
+        - email
+        - address
+        - companyIdentificationNumber
+      properties:
+        email:
+          type: string
+          format: email
+          example: "email@example.com"
+          maxLength: 255
+        address:
+          $ref: '#/components/schemas/Address'
+        companyIdentificationNumber:
+          type: string
+          example: "123456789"
+          description: Seller's company identification number
+    CreateProductRequest:
+      type: object
+      required:
+        - name
+        - brandName
+        - price
+        - category
+      properties:
+        name:
+          type: string
+          example: "Purple Kush 10g"
+          description: Product name
+          maxLength: 30
+        brandName:
+          type: string
+          example: "SwissGreenz"
+          description: Product brand name
+          maxLength: 30
+        price:
+          $ref: '#/components/schemas/Amount'
+        category:
+          $ref: '#/components/schemas/ProductCategory'
+        description:
+          type: string
+          maxLength: 2000
+          example: "Purple Kush is a pure indica strain that emerged from the Oakland area of California as the result of a Hindu Kush and Purple Afghani cross. This dank bud boasts a moderately high THC level ranging from 15-20% and a myriad of both indica and sativa effects. Users describe the Purple Kush high as having an immediate onset of a heavy body high that leaves you completely relaxed with waves of euphoria that wash over you. You'll feel completely at ease and free of any aches or pains as your mind soars through introspective bliss. Due to these potent effects, Purple Kush is said to be an ideal strain for treating patients suffering from conditions such as chronic pain due to injury or illness, stress, mild to moderate cases of depression, and sleep disorders, including insomnia and night terrors."
+          description: Product description
+        imageUrl:
+          $ref: '#/components/schemas/ImageUrl'
+
+    ImageUrl:
+      type: string
+      example: "https://example.com/image.jpg"
+      description: |
+        A URL to an image.
+        Use query parameters to specify the image size or aspect ratio.
+        For example: https://example.com/image.jpg?width=200&height=200&aspect_ratio=1:1
+      maxLength: 1000
+
+    ProductCategory:
+      type: string
+      enum:
+        - oil
+        - bud
+        - edible
+        - concentrate
+        - preroll
+        - seed
+        - pet
+    Amount:
+      type: object
+      required:
+        - value
+        - currency
+      properties:
+        value:
+          type: number
+          example: 1000
+          description: Amount value
+        currency:
+          type: string
+          maxLength: 3
+          example: "CHF"
+          description: Amount currency
+    Address:
+      type: object
+      required:
+        - companyName
+        - street
+        - city
+        - zip
+        - country
+      properties:
+        firstName:
+          type: string
+          example: "John"
+          description: First name
+          maxLength: 100
+        lastName:
+          type: string
+          example: "Doe"
+          description: Last name
+          maxLength: 100
+        companyName:
+          type: string
+          example: "Company Name"
+          description: Company name
+          maxLength: 100
+        street:
+          type: string
+          example: "Rue du Lac 1"
+          description: Street
+          maxLength: 100
+        city:
+          type: string
+          example: "Lausanne"
+          description: City
+          maxLength: 100
+        zip:
+          type: string
+          example: "1000"
+          description: Zip code
+          maxLength: 100
+        country:
+          type: string
+          example: "Switzerland"
+          description: Country
+          maxLength: 100
+    CreateProductResponse:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          example: "123456789"
+          description: Product ID
+    UpdateProductRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Purple Kush 10g"
+          description: Product name
+          maxLength: 30
+        brandName:
+          type: string
+          example: "SwissGreenz"
+          description: Product brand name
+          maxLength: 30
+        price:
+          $ref: '#/components/schemas/Amount'
+        category:
+          $ref: '#/components/schemas/ProductCategory'
+        description:
+          type: string
+          maxLength: 2000
+          example: "Purple Kush is a pure indica strain that emerged from the Oakland area of California as the result of a Hindu Kush and Purple Afghani cross. This dank bud boasts a moderately high THC level ranging from 15-20% and a myriad of both indica and sativa effects. Users describe the Purple Kush high as having an immediate onset of a heavy body high that leaves you completely relaxed with waves of euphoria that wash over you. You'll feel completely at ease and free of any aches or pains as your mind soars through introspective bliss. Due to these potent effects, Purple Kush is said to be an ideal strain for treating patients suffering from conditions such as chronic pain due to injury or illness, stress, mild to moderate cases of depression, and sleep disorders, including insomnia and night terrors."
+          description: Product description
+        imageUrl:
+          $ref: '#/components/schemas/ImageUrl'
+
+    ProductResponse:
+      type: object
+      required:
+        - id
+        - name
+        - brandName
+        - price
+        - category
+        - seller
+      properties:
+        id:
+          type: string
+          example: "123456789"
+          description: Product ID
+        name:
+          type: string
+          example: "Purple Kush 10g"
+          description: Product name
+          maxLength: 30
+        brandName:
+          type: string
+          example: "SwissGreenz"
+          description: Product brand name
+          maxLength: 30
+        price:
+          $ref: '#/components/schemas/Amount'
+        category:
+          $ref: '#/components/schemas/ProductCategory'
+        description:
+          type: string
+          maxLength: 512
+          example: "Purple Kush is a pure indica strain that emerged from the Oakland area of California as the result of a Hindu Kush and Purple Afghani cross. This dank bud boasts a moderately high THC level ranging from 15-20% and a myriad of both indica and sativa effects. Users describe the Purple Kush high as having an immediate onset of a heavy body high that leaves you completely relaxed with waves of euphoria that wash over you. You'll feel completely at ease and free of any aches or pains as your mind soars through introspective bliss. Due to these potent effects, Purple Kush is said to be an ideal strain for treating patients suffering from conditions such as chronic pain due to injury or illness, stress, mild to moderate cases of depression, and sleep disorders, including insomnia and night terrors."
+          description: Product description
+        imageUrl:
+          $ref: '#/components/schemas/ImageUrl'
+        seller:
+          $ref: '#/components/schemas/ProductSellerResponse'
+
+    ProductSellerResponse:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          example: "123456789"
+          description: Seller ID
+    ProductListResponse:
+      type: object
+      required:
+        - products
+        - totalItems
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductResponse'
+        totalItems:
+          type: integer
+          format: int64
+          example: 1
+          description: Total number of products
+
+    OrderStatus:
+      type: string
+      enum:
+        - pending
+        - processing
+        - shipped
+        - cancelled
+    OrderResponse:
+      type: object
+      required:
+        - orderId
+        - buyerId
+        - buyerAddress
+        - products
+        - status
+        - created
+        - seller
+      properties:
+        orderId:
+          type: string
+          example: "123456789"
+          description: Order ID
+        buyerId:
+          type: string
+          example: "123456789"
+          description: Buyer ID
+        buyerAddress:
+          $ref: '#/components/schemas/Address'
+        status:
+          $ref: '#/components/schemas/OrderStatus'
+        created:
+          type: string
+          format: date-time
+          example: "2020-01-01T00:00:00.000Z"
+          description: Order creation date
+        seller:
+          $ref: '#/components/schemas/OrderSellerResponse'
+        products:
+          type: array
+          items:
+            type: object
+            required:
+              - product
+              - quantity
+            properties:
+              product:
+                $ref: '#/components/schemas/ProductResponse'
+              quantity:
+                type: integer
+                format: int32
+                example: 1
+                description: Product quantity
+    OrderSellerResponse:
+      type: object
+      required:
+        - sellerId
+        - companyName
+      properties:
+        sellerId:
+          type: string
+          example: "123456789"
+          description: Seller ID
+        companyName:
+          type: string
+          example: "Company Name"
+          description: Company name
+          maxLength: 100
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          example: "customer@email.com"
+          description: Customer email
+        password:
+          type: string
+          example: "password"
+          description: Customer password
+    LoginResponse:
+      type: object
+      required:
+        - token
+        - userId
+        - roles
+      properties:
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+          description: JWT token
+        userId:
+          type: string
+          example: "123456789"
+          description: Customer ID
+        roles:
+          type: array
+          uniqueItems: true
+          description: Customer roles
+          items:
+            $ref: '#/components/schemas/Role'
+
+    Role:
+      type: string
+      enum:
+        - SELLER_ROLE
+        - BUYER_ROLE
+
+    FormUploadRequest:
+      required:
+        - file
+        - name
+      type: object
+      properties:
+        file:
+          format: binary
+          type: string
+          nullable: false
+        name:
+          type: string
+          nullable: false
+        type:
+          type: string
+
+    FormUploadResponse:
+      type: object
+      required:
+        - url
+      properties:
+        url:
+          type: string
+          example: "https://example.com/image.jpg"
+          description: A URL to an image
+          maxLength: 1000
+
+    ErrorResponse:
+      description: A Problem Details object (RFC 7807)
+      type: object
+      properties:
+        type:
+          type: string
+          description: An absolute URI that identifies the problem type
+        title:
+          type: string
+          description: A short summary of the problem type. Written in English and readable for engineers (usually not suited for non technical stakeholders and not localized).
+          example: Service Unavailable
+        status:
+          type: integer
+          format: int32
+          description: The HTTP status code generated by the origin server for this occurrence of the problem.
+          minimum: 400
+          maximum: 600
+          exclusiveMaximum: true
+          example: 503
+        detail:
+          type: string
+          description: A human-readable explanation specific to this occurrence of the problem
+        instance:
+          type: string
+          description: An absolute URI that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.
+        violations:
+          type: array
+          description: An array of violation objects
+          items:
+            properties:
+              field:
+                type: string
+                description: The field that caused the error
+              message:
+                type: string
+                description: The error message
+              in:
+                type: string
+                description: The location of the error
+                enum:
+                  - query
+                  - path
+                  - header
+                  - body
+                  - form
+                  - unknown
+      example:
+        {
+          "status": 400,
+          "title": "Bad Request",
+          "instance": "/browse",
+          "violations": [
+            {
+              "field": "pageSize",
+              "in": "query",
+              "message": "must be less than or equal to 100"
+            }
+          ]
+        }
+
+security:
+  - bearerAuth: [ ]

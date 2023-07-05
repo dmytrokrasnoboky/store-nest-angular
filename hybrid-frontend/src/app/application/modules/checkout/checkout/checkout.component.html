@@ -1,0 +1,67 @@
+<app-header title='Kasse'></app-header>
+
+<!-- CHECKOUT -->
+<div class='container'>
+  <div class='container__form form'>
+    <mat-divider class='form__divider'></mat-divider>
+    <h2 class='form__header'>Lieferadresse</h2>
+    <form #myForm="ngForm" [formGroup]='form' class='form__content' (ngSubmit)='buyProducts()'>
+      <ng-container *ngFor='let item of formConfig'>
+        <ng-container *ngIf='item.type === FormTypes.FORM_ITEM'>
+          <h4 class='form__label'>{{item.required ? item.label + ' *' : item.label}}</h4>
+          <mat-form-field class='form__field' appearance='outline'>
+            <input
+              matInput
+              [placeholder]='item.label'
+              [formControlName]='item.name'
+              [required]='item.required'
+            >
+            <mat-error *ngIf='item.required && form.get(item.name)?.touched'>Field is required</mat-error>
+          </mat-form-field>
+        </ng-container>
+
+        <ng-container *ngIf='item.type === FormTypes.FORM_GROUP'>
+          <div class='form__group'>
+            <div *ngFor='let input of item.group' class='form__group-item'>
+              <h4 class='form__label'>{{input.required ? input.label + ' *' : input.label}}</h4>
+              <mat-form-field class='form__field' appearance='outline'>
+                <input
+                  matInput
+                  [placeholder]='input.label'
+                  [formControlName]='input.name'
+                  [required]='input.required'
+                >
+                <mat-error *ngIf='input.required && form.get(input.name)?.touched'>Field is required</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </form>
+
+    <mat-divider></mat-divider>
+
+    <div class='container__footer' *ngIf='(orderService.price$ | async) as price'>
+      <!-- TOTAL BOTTOM -->
+      <app-total-price
+        [price]='price'
+        [currency]='orderService.currency'
+        [isBackButtonVisible]='true'
+        buttonTitle='Bestellen'
+        backButtonTitle='Warenkorb'
+        (buyProducts)='myForm.ngSubmit.emit()'
+      ></app-total-price>
+    </div>
+  </div>
+
+  <!-- TOTAL RIGHT -->
+  <div class='total-container tablet' *ngIf='(orderService.price$ | async) as price'>
+    <app-total-price
+      [price]='price'
+      [currency]='orderService.currency'
+      buttonTitle='Bestellen'
+      (buyProducts)='myForm.ngSubmit.emit()'
+    ></app-total-price>
+  </div>
+</div>
+

@@ -1,0 +1,83 @@
+@import "../../../../assets/styles/variables";
+
+.container {
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: $background-active 0 1px 4px;
+}
+
+//.mat-mdc-row:nth-child(odd){
+//  background-color: #f9fcf3;
+//}
+
+.table {
+
+  a {
+    color: $primary-dark;
+  }
+
+  width: 100%;
+  overflow-y: auto;
+
+  &__cell, &__header-cell {
+    flex: 1 0 160px;
+  }
+
+  &__header-cell {
+    color: $primary-dark !important;
+  }
+
+  &__header-cell:hover {
+    background-color: $background-light-hover;
+  }
+
+  &__row {
+    cursor: pointer;
+
+    &:hover {
+      background-color: $background-light-hover !important;
+    }
+
+    &:active, &:focus {
+      background-color: $background-light-hover !important;
+    }
+  }
+
+  &__header-row {
+    background-color: $gray-f8;
+  }
+
+  ::ng-deep {
+    .mat-mdc-table mat-row.mat-mdc-row {
+      height: 64px;
+    }
+  }
+}
+
+.seller-cell {
+  display: flex;
+  flex-direction: column;
+
+  & __name {
+    font-size: 16px;
+  }
+
+  &__email {
+    color: $gray-333;
+  }
+}
+
+.category-cell {
+  display: flex;
+  align-items: center;
+  border-radius: 99px;
+  background-color: rgba($gray-ccc, 0.2);
+  line-height: 1em;
+  padding: 6px;
+}
+
+.danger {
+  &:hover, &:active {
+    color: $danger;
+  }
+}

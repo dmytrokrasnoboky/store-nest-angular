@@ -1,0 +1,38 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# Compiled output
+/hybrid-frontend/dist
+
+# Node
+/hybrid-backend/node_modules
+/hybrid-frontend/node_modules
+/hybrid-frontend/npm-debug.log
+/hybrid-backend/npm-debug.log
+
+# IDEs and editors
+/hybrid-frontend/.idea/
+/hybrid-frontend/.project
+/hybrid-frontend/.classpath
+/hybrid-frontend/.c9/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/hybrid-frontend/.angular/cache
+/hybrid-frontend/.sass-cache/
+/hybrid-frontend/connect.lock
+/hybrid-frontend/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System files
+.DS_Store
+Thumbs.db

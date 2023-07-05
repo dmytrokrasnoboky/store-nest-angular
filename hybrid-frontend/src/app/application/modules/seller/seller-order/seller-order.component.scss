@@ -1,0 +1,14 @@
+@import "variables";
+.title {
+  margin: 32px 0;
+}
+
+.add-info__container {
+  display: flex; gap: 36px; flex-wrap: wrap;
+}
+
+.add-info__item {
+  flex: 1;
+  min-width: 340px;
+}
+

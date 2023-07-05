@@ -1,0 +1,25 @@
+
+<div *ngIf='canChange && isSeller; else staticStatus' class='custom-select'>
+  <mat-form-field appearance='outline'>
+    <div [class]='currentStatus.class' class='mat-elevation-z1'>
+
+      <mat-select-trigger class='custom-select__trigger'>
+        <mat-icon>{{currentStatus.icon}}</mat-icon>
+      </mat-select-trigger>
+
+      <mat-select [formControl]='selectedStatusValue'>
+        <mat-option *ngFor='let item of selectConfig' [value]='item.type'>
+          <mat-icon class='icon'>{{item.icon}}</mat-icon>
+          {{item.label}}
+        </mat-option>
+      </mat-select>
+    </div>
+  </mat-form-field>
+</div>
+
+<ng-template #staticStatus>
+  <div [class]='currentStatus.class'>
+    <mat-icon class='icon'>{{currentStatus.icon}}</mat-icon>
+    {{currentStatus.label}}
+  </div>
+</ng-template>

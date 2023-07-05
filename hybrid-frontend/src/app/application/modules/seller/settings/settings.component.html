@@ -1,0 +1,142 @@
+<app-header
+  title='Einstellungen'
+></app-header>
+
+<form [formGroup]='form' class='form__container' (submit)='onSubmit()'>
+  <div class='form__field'>
+    <h4 class='form__label'>Account Informationen</h4>
+    <mat-form-field appearance='outline' class='form__item'>
+      <input
+        formControlName='email'
+        autocomplete='email'
+        matInput
+        type='email'
+        placeholder='Email'
+      />
+      <mat-error>Field is required</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class='form__field'>
+    <mat-form-field appearance='outline' class='form__item'>
+      <input
+        formControlName='password'
+        autocomplete='password'
+        matInput
+        placeholder='Passwort'
+        type='password'
+      />
+      <mat-error>Field is required</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class='form__field'>
+    <h4 class='form__label'>Kundeninformationen</h4>
+    <mat-form-field appearance='outline' class='form__item'>
+      <input
+        formControlName='companyName'
+        autocomplete='companyName'
+        matInput
+        placeholder='Firmenname'
+        type='text'
+      />
+      <mat-error>Field is required</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class='form__field'>
+    <mat-form-field appearance='outline' class='form__item'>
+      <input
+        formControlName='companyIdentificationNumber'
+        autocomplete='companyIdentificationNumber'
+        matInput
+        placeholder='Unternehmensidentifikation'
+        type='text'
+      />
+      <mat-error>Field is required</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class='form__group'>
+    <div class='form__field'>
+      <mat-form-field appearance='outline' class='form__item'>
+        <input
+          autocomplete='firstName'
+          formControlName='firstName'
+          placeholder='Vorname'
+          matInput
+          type='text'
+        />
+      </mat-form-field>
+    </div>
+
+    <div class='form__field'>
+      <mat-form-field appearance='outline' class='form__item'>
+        <input
+          formControlName='lastName'
+          autocomplete='lastName'
+          placeholder='Nachname'
+          matInput
+          type='text'
+        />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class='form__field'>
+    <mat-form-field appearance='outline' class='form__item'>
+      <input
+        formControlName='street'
+        autocomplete='street'
+        matInput
+        placeholder='Strasse'
+        type='text'
+      />
+    </mat-form-field>
+  </div>
+
+  <div class='form__group'>
+    <div class='form__field'>
+      <mat-form-field appearance='outline' class='form__item'>
+        <input
+          autocomplete='zip'
+          formControlName='zip'
+          placeholder='Postleitzahl'
+          matInput
+          type='text'
+        />
+      </mat-form-field>
+    </div>
+
+    <div class='form__field'>
+      <mat-form-field appearance='outline' class='form__item'>
+        <input
+          formControlName='city'
+          autocomplete='city'
+          placeholder='Stadt'
+          matInput
+          type='text'
+        />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class='form__field'>
+    <mat-form-field appearance='outline' class='form__item'>
+      <input
+        formControlName='country'
+        autocomplete='country'
+        matInput
+        placeholder='Land/Region'
+        type='text'
+      />
+    </mat-form-field>
+  </div>
+
+  <div class='attention'>
+    Bei Anpassungswünschen bitte den Customer Service kontaktieren via
+    <a href='mailto:customerservice@cannalinkr.com'  class='attention__link'>
+      customerservice@cannalinkr.com
+    </a>
+  </div>
+</form>

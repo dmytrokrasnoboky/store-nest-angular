@@ -1,0 +1,10 @@
+<div class='custom-form-count'>
+  <mat-form-field appearance='outline'>
+    <mat-icon matPrefix class='form-icon' (click)='decrementCount()'>remove_outline</mat-icon>
+    <input matInput type='number' min='1' [formControl]='productQuantity' class='form-input'>
+    <mat-icon matSuffix class='form-icon' (click)='incrementCount()'>add_outline</mat-icon>
+  </mat-form-field>
+  <button mat-icon-button *ngIf='deleteIcon' (click)='onDeleteIcon()'>
+    <mat-icon>delete</mat-icon>
+  </button>
+</div>

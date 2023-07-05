@@ -1,0 +1,59 @@
+@import "mixins";
+@import "variables";
+
+.container {
+  min-width: 100vw;
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+  background-color: $primary;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__wrap {
+    max-width: 460px;
+    min-width: 280px;
+    width: 100%;
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+
+  &__box {
+    width: 100%;
+    margin: 0;
+    padding: 48px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    @include respond-below(xs) {
+      padding: 32px 16px;
+    }
+  }
+
+  &__title {
+    align-self: center;
+    font-size: 32px;
+    line-height: 40px;
+    margin-bottom: 16px;
+  }
+
+  &__actions {
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__content {
+    padding: 0 !important;
+    mat-form-field {
+      width: 100%;
+    }
+  }
+}
+

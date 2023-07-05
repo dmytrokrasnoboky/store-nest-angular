@@ -1,0 +1,55 @@
+<mat-sidenav-container (backdropClick)='sidenav.close()'>
+  <mat-sidenav
+    #sidenav
+    [disableClose]='(mobileQuery$ | async) === false'
+    [mode]="(mobileQuery$ | async) ? 'side' : 'over'"
+    [opened]='!!(mobileQuery$ | async)'
+    class='nav'
+  >
+    <app-sidebar (onclose)='onClose(sidenav)'></app-sidebar>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar class='header'>
+      <button *ngIf='(mobileQuery$ | async) === false' mat-icon-button (click)='sidenav.toggle()'>
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <div class='header__actions'>
+        <ng-container *ngIf='(isAuthorized$ | async); else login'>
+          <button
+            *ngIf='!!(user$ | async)?.role?.includes(roles.BuyerRole)'
+            mat-icon-button
+            class='header__icon header__icon--cart'
+            routerLink='cart'
+          >
+            <mat-icon
+              [matBadge]='(order.list$ | async)?.length'
+              [matBadgeHidden]='!(order.list$ | async)?.length'
+              matBadgeSize='small'
+            >
+              shopping_cart
+            </mat-icon>
+          </button>
+          <button mat-icon-button class='header__icon header__icon--user' [cdkMenuTriggerFor]='menu'>
+            <span class='icon-text'>PZ</span>
+          </button>
+        </ng-container>
+        <ng-template #login>
+          <button mat-stroked-button color='primary' routerLink='login'>Login</button>
+        </ng-template>
+      </div>
+    </mat-toolbar>
+    <div class='content'>
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ng-template #menu>
+  <div class='menu' cdkMenu>
+    <button mat-stroked-button color='primary' cdkMenuItem (click)='authService.logout()'>Logout</button>
+  </div>
+</ng-template>
+
+

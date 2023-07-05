@@ -1,0 +1,16 @@
+<div class='header'>
+  <div class='header__container'>
+    <h2 class='header__title'>{{title}}</h2>
+    <ng-container *ngIf='button'>
+      <ng-container *ngIf='button.link; else clickButton'>
+        <button mat-flat-button color='primary' [routerLink]='button.link'>{{button.name}}</button>
+      </ng-container>
+      <ng-template #clickButton>
+        <button mat-flat-button color='primary' (click)='buttonEvent.emit()' [disabled]='!!button.disabled'>{{button.name}}</button>
+      </ng-template>
+    </ng-container>
+  </div>
+  <p *ngIf='description' class='header__description'>
+    {{description}}
+  </p>
+</div>

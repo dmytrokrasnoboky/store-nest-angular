@@ -1,0 +1,12 @@
+<app-header
+  title='Bestand'
+  [actionButton]='linkButton'
+></app-header>
+
+<h2 class='title'>Bestellübersicht</h2>
+
+<app-table
+  [columns]='columns'
+  [data]='ordersFromServer'
+  [deleteAction]='deleteProduct'
+></app-table>

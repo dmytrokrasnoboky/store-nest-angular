@@ -1,0 +1,25 @@
+<app-header
+  title='Edit & Detail'
+  (buttonEvent)='saveChanges()'
+  [actionButton]='headerSavedData'
+></app-header>
+
+<div class='add-info__container'>
+  <div class='add-info__item'>
+    <h2 class='title'>Bestellinformation</h2>
+    <app-additional-info [data]='additionalOrderInfo' (statusChanged)='changeOrderStatus($event)'></app-additional-info>
+  </div>
+
+  <div class='add-info__item'>
+    <h2 class='title'>Kundeninformation</h2>
+    <app-additional-info [data]='additionalCustomerInfo'></app-additional-info>
+  </div>
+</div>
+
+
+<h2 class='title'>Produkte</h2>
+
+<app-table
+  [columns]='columns'
+  [data]='orderFromServer'
+></app-table>

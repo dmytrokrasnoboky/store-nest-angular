@@ -1,0 +1,63 @@
+<div class='container'>
+  <div class='container__wrap'>
+    <mat-card class='container__box'>
+      <mat-card-title class='container__title'>Create seller account</mat-card-title>
+      <mat-card-content class='container__content form'>
+        <form [formGroup]='form' class='form__content' (ngSubmit)='createSellerUser()'>
+          <ng-container *ngFor='let item of formConfig'>
+            <ng-container *ngIf='item.type === FormTypes.FORM_ITEM'>
+              <h4 class='form__label'>{{item.required ? item.label + ' *' : item.label}}</h4>
+              <mat-form-field class='form__field' appearance='outline'>
+                <input
+                  matInput
+                  [placeholder]='item.label'
+                  [formControlName]='item.name'
+                  [required]='item.required'
+                  [type]='item?.inputType || "text"'
+                >
+                <mat-error *ngIf='item.required && form.get(item.name)?.touched'>Field is required</mat-error>
+              </mat-form-field>
+            </ng-container>
+
+            <ng-container *ngIf='item.type === FormTypes.FORM_GROUP'>
+              <div class='form__group'>
+                <div *ngFor='let input of item.group' class='form__group-item'>
+                  <ng-container *ngIf='input.type === FormTypes.FORM_ITEM'>
+                    <h4 class='form__label'>{{input.required ? input.label + ' *' : input.label}}</h4>
+                    <mat-form-field class='form__field' appearance='outline'>
+                      <input
+                        matInput
+                        [placeholder]='input.label'
+                        [formControlName]='input.name'
+                        [required]='input.required'
+                        [type]='input?.inputType || "text"'
+                      >
+                      <mat-error *ngIf='input.required && form.get(input.name)?.touched'>Field is required</mat-error>
+                    </mat-form-field>
+                  </ng-container>
+                </div>
+              </div>
+
+            </ng-container>
+          </ng-container>
+          <mat-card-actions class='container__actions'>
+            <button
+              mat-flat-button
+              type='button'
+              routerLink='..'
+            >Choose another user profile
+            </button>
+            <button
+              color='primary'
+              mat-flat-button
+              type='submit'
+              [disabled]='form.invalid'
+            >Create account
+            </button>
+          </mat-card-actions>
+        </form>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

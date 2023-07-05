@@ -1,0 +1,21 @@
+<app-header
+  title='Produkte'
+  description='Suche Produkte von verschiedenen Anbietern auf unserem Marktplatz'
+></app-header>
+
+<mat-form-field appearance='outline' class='select-form custom-form-count'>
+  <mat-label>Alle Kategorien</mat-label>
+  <mat-select [formControl]="selectedCategories" multiple>
+    <mat-option
+      *ngFor='let category of categories'
+      [value]="category">
+      {{category | uppercase}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<ul class='container__list' *ngIf='(products$ | async) as products'>
+  <li class='container__list-item' *ngFor='let product of products.products'>
+    <app-product [product]='product' [count]='product.quantity' (productQuantityChange)='emitProductQuantityChange(product, $event)'></app-product>
+  </li>
+</ul>

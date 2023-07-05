@@ -1,0 +1,58 @@
+<app-header title='Warenkorb'></app-header>
+
+<!-- SHOPPING CART -->
+<div class='container'>
+  <div class='container__cards'>
+    <ng-container *ngIf='(orderService.list$ | async) as products; else loading'>
+      <ng-container *ngIf='products.length; else emptyCart'>
+
+        <ng-container *ngFor='let product of products'>
+          <ng-container *ngIf='product.quantity > 0'>
+            <mat-divider></mat-divider>
+            <app-cart-item [product]='product'></app-cart-item>
+          </ng-container>
+        </ng-container>
+
+        <mat-divider></mat-divider>
+
+        <!-- TOTAL BOTTOM -->
+        <div class='container__footer' *ngIf='(orderService.price$ | async) as price'>
+          <app-total-price
+            [price]='price'
+            [currency]='orderService.currency'
+            [isBackButtonVisible]='true'
+            buttonTitle='Weiter zur Kasse'
+            backButtonTitle='Marktplatz'
+            (buyProducts)='navigateToCheckout()'
+          ></app-total-price>
+        </div>
+      </ng-container>
+
+      <ng-template #emptyCart>
+        <div class='empty-cart'>
+          <h2 class='empty-cart__title'>Einkaufswagen ist leer</h2>
+          <p>Aber es ist nie zu spät, das Problem zu beheben :)</p>
+        </div>
+      </ng-template>
+    </ng-container>
+
+    <ng-template #loading>
+      <div class='empty-cart'>
+        <h2 class='empty-cart__title'>Loading...</h2>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- TOTAL RIGHT -->
+  <div class='total-container tablet' *ngIf='(orderService.price$ | async) as price'>
+    <app-total-price
+      [price]='price'
+      [currency]='orderService.currency'
+      buttonTitle='Weiter zur Kasse'
+      backButtonTitle='Marktplatz'
+      (buyProducts)='navigateToCheckout()'
+    ></app-total-price>
+  </div>
+</div>
+
+

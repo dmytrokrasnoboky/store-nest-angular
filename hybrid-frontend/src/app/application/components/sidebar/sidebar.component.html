@@ -1,0 +1,28 @@
+<div class='logo-container' [routerLink]="['/']" (click)='onclose.emit()'>
+  <h2 class='logo'>CannaLinkr</h2>
+</div>
+<div
+  class='welcome-widget'>
+  <p>
+    <strong class='welcome-widget__title'>Welcome John,</strong>
+    What do you want your
+    customers to treat with?
+  </p>
+</div>
+<mat-nav-list *ngIf='(userRole$ | async) as role'>
+  <ng-container *ngFor='let menuitem of menuItems'>
+    <a
+      mat-list-item
+      *ngIf='menuitem.state === role[0]'
+      [routerLink]='menuitem.link'
+      routerLinkActive='selected'
+      [routerLinkActiveOptions]="{exact: true}"
+      (click)='onclose.emit()'
+    >
+      <div class='nav-item'>
+        <mat-icon>{{menuitem.icon}}</mat-icon>
+        <span>{{menuitem.name}}</span>
+      </div>
+    </a>
+  </ng-container>
+</mat-nav-list>

@@ -1,0 +1,92 @@
+<div class='container'>
+  <div class='table'>
+    <mat-table
+      [dataSource]='dataSource'
+      matSort
+      [matSortActive]='activeSort.dataKey'
+      [matSortDirection]='activeSort.direction'
+      matSortDisableClear
+    >
+      <ng-container
+        *ngFor='let column of columns'
+        [matColumnDef]='column.dataKey'
+      >
+
+        <mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          [disabled]='!!column?.disabled'
+          class='table__header-cell'
+          [ngStyle]="{'flex': column.width ? column.width : '' }"
+        >
+          {{ column.displayName }}
+        </mat-header-cell>
+
+
+        <mat-cell
+          *matCellDef='let element'
+          class='table__cell'
+          [ngStyle]="{'flex': column.width ? column.width : '' }"
+        >
+          <ng-container [ngSwitch]='column.dataKey'>
+            <ng-container *ngSwitchCase='columnTypes.ORDER_ID'>
+              {{ element['id'] }}
+            </ng-container>
+
+            <ng-container *ngSwitchCase='columnTypes.DATE'>
+              {{ element.date | date: 'MMM d, y'  }}
+            </ng-container>
+
+            <ng-container *ngSwitchCase='columnTypes.SELLER'>
+              <div class='seller-cell'>
+                <p class='seller-cell__name'>{{element.seller.companyName}}</p>
+              </div>
+            </ng-container>
+
+            <ng-container *ngSwitchCase='columnTypes.STATUS'>
+              <app-status [status]='element.status'></app-status>
+            </ng-container>
+
+            <ng-container *ngSwitchCase='columnTypes.PRICE'>
+              {{element.price.value | currency :  (element.price.currency + ' ') | uppercase}}
+            </ng-container>
+
+            <ng-container *ngSwitchCase='columnTypes.DETAILS'>
+              <a class='link' [routerLink]='element.id' [state]='{order: element.order}'>Detail</a>
+            </ng-container>
+
+            <ng-container *ngSwitchCase='columnTypes.PRODUCT_EDIT'>
+              <a class='link' [routerLink]="'product/' + element.id + '/edit'" [state]='{product: element.product}'>
+                Edit & Detail
+              </a>
+            </ng-container>
+
+            <ng-container *ngSwitchCase='columnTypes.ORDER_EDIT'>
+              <a class='link' [routerLink]="element.id" [state]='{product: element.product}'>
+                Edit & Detail
+              </a>
+            </ng-container>
+
+            <ng-container *ngSwitchCase='columnTypes.DELETE'>
+              <button mat-stroked-button color='warn' (click)='removeItem(element.id)'>Delete</button>
+            </ng-container>
+
+            <ng-container *ngSwitchCase='columnTypes.CATEGORY'>
+              <p class='category-cell'>
+                {{element[column.dataKey]}}
+              </p>
+            </ng-container>
+
+            <ng-container *ngSwitchDefault>
+              {{element[column.dataKey]}}
+            </ng-container>
+          </ng-container>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef='displayedColumns' class='table__header-row'></mat-header-row>
+      <mat-row *matRowDef='let row; columns: displayedColumns' class='table__row'></mat-row>
+    </mat-table>
+  </div>
+</div>
+

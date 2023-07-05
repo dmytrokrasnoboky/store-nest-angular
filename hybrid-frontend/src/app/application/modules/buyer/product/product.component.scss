@@ -1,0 +1,116 @@
+@import "variables";
+
+.card {
+  height: 100%;
+
+  &__img-background {
+    background-color: $gray-ccc;
+    border-radius: 6px;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__img-container {
+    position: relative;
+    width: 200px;
+    height: 150px;
+
+    img {
+      width: auto;
+      height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+      border-radius: 6px;
+    }
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__product-name {
+    color: $black;
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 1.5;
+    max-height: 3em;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+  }
+
+  &__brand-name {
+    margin-bottom: 5px;
+    font-weight: 400;
+    font-size: 16px;
+  }
+
+  &__price {
+    display: block;
+    font-weight: 600;
+    font-size: 16px;
+    flex: 1;
+  }
+
+  &__description {
+    white-space: pre-line;
+    text-align: justify;
+    padding-top: 12px;
+  }
+
+  &__link {
+    color: $text-primary;
+    text-decoration: none;
+  }
+
+  &__content {
+    margin-top: 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+
+    text-align: center;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-top: 16px;
+    padding: 0 16px 16px;
+
+    ::ng-deep {
+      .mdc-button {
+        height: 40px;
+      }
+    }
+  }
+
+  &__icon {
+    cursor: pointer;
+    padding: 6px !important;
+
+    &:hover {
+      background-color: $background-hover;
+    }
+
+    &:focus, &:active {
+      background-color: $background-active;
+    }
+  }
+
+  &__input {
+    text-align: center;
+  }
+}
+
+

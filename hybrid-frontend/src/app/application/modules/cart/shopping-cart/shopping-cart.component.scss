@@ -1,0 +1,46 @@
+@import "variables";
+@import "mixins";
+
+.container {
+  margin: 32px auto;
+  width: 100%;
+  max-width: 1280px;
+
+  display: flex;
+  gap: 64px;
+
+  &__cards {
+    flex: auto;
+    height: 200px;
+  }
+
+  &__footer {
+    padding: 16px 0;
+  }
+}
+
+.tablet {
+  display: none !important;
+
+  @include respond-above(md) {
+    display: flex !important;
+  }
+}
+
+.total-container {
+  width: 350px;
+}
+
+.empty-cart {
+  text-align: center;
+  margin: 100px auto;
+
+  &_-title {
+    margin-bottom: 16px;
+  }
+}
+
+
+
+
+

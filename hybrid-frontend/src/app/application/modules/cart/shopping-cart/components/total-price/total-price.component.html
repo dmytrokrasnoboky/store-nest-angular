@@ -1,0 +1,27 @@
+<div class='total'>
+  <div class='total__container'>
+    <div class='total__price'>
+      <h3 class='total__price-title'>Total</h3>
+      <h3 class='total__price-value'>{{price | currency :  currency + ' ' }}</h3>
+    </div>
+    <p class='total__tax'>exkl. Steuer und Lieferkosten</p>
+  </div>
+
+  <div class='total__actions'>
+    <ng-container *ngIf='isBackButtonVisible'>
+      <div  class='total__actions--back'>
+        <app-back-button [backButtonTitle]='backButtonTitle'></app-back-button>
+      </div>
+    </ng-container>
+
+    <button
+      mat-flat-button
+      [disabled]='price === 0'
+      color='primary'
+      class='total__submit'
+      (click)='buyProducts.emit()'
+    >
+      {{ buttonTitle }}
+    </button>
+  </div>
+</div>

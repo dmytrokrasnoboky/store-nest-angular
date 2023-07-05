@@ -1,0 +1,18 @@
+<app-header
+  title='Detail'
+></app-header>
+
+<h2 class='title'>Bestellinformation</h2>
+
+<app-additional-info [data]='additionalOrderInfo'></app-additional-info>
+
+<h2 class='title'>Produkte</h2>
+
+<app-table
+  [columns]='columns'
+  [data]='orderFromServer'
+></app-table>
+
+<div class='back-button'>
+  <app-back-button backButtonTitle='Übersicht'></app-back-button>
+</div>

@@ -1,0 +1,32 @@
+<mat-card class='card'>
+  <mat-card-header class='card__header'>
+    <a class='card__link' [routerLink]='product.id' [state]='{product,count}'>
+      <div class='card__img-container'>
+        <img
+          *ngIf='product.imageUrl; else background'
+          ngSrc='{{product.imageUrl}}'
+          [alt]='product.name'
+          fill
+        >
+        <ng-template #background>
+          <div class='card__img-background'></div>
+        </ng-template>
+      </div>
+    </a>
+  </mat-card-header>
+
+  <mat-card-content class='card__content'>
+    <a class='card__link' [routerLink]='product.id' [state]='{product,count}'>
+      <h3 class='card__product-name'>{{product.name}}</h3>
+    </a>
+    <h4 class='card__brand-name'>{{product.brandName}}</h4>
+    <h5 class='card__price'>{{product.price.value | currency :  product.price.currency + ' ' }}</h5>
+    <p class='card__description' *ngIf='showDetails' [innerHTML]="product.description"></p>
+  </mat-card-content>
+  <mat-card-actions class='card__actions'>
+    <app-counter
+      [quantity]='count'
+      (quantityChange)='count = $event'></app-counter>
+    <button mat-flat-button color='primary' (click)='productQuantityChange.emit(count)'>Hinzufügen</button>
+  </mat-card-actions>
+</mat-card>

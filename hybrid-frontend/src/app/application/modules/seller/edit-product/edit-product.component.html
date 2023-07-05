@@ -1,0 +1,12 @@
+<app-header
+  title='Edit & Detail'
+></app-header>
+
+<ng-container *ngIf='(productObs$ | async) as product'>
+  <app-create-edit-product
+    [formSubmit]='editProduct'
+    [editProductData]='product'
+  ></app-create-edit-product>
+</ng-container>
+
+

@@ -1,0 +1,27 @@
+<div class='additional-info'>
+  <ng-container *ngFor='let item of data'>
+    <div class='additional-info__item'>
+      <p class='additional-info__title'>{{item.title}}</p>
+      <p class='additional-info__text'>
+        <ng-container [ngSwitch]='item.key'>
+          <ng-container *ngSwitchCase='"price"'>
+            <ng-container *ngIf='getPrice(item.value) as price'>
+              {{price.value  | currency :  price.currency + ' '}}
+            </ng-container>
+          </ng-container>
+          <ng-container *ngSwitchCase='"status"'>
+            <app-status
+              [status]='getStatus(item.value)'
+              [canChange]='true'
+              (changeStatus)='statusChanged.emit($event)'
+            ></app-status>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            {{item.value}}
+          </ng-container>
+        </ng-container>
+      </p>
+    </div>
+    <hr class='additional-info__divide'>
+  </ng-container>
+</div>

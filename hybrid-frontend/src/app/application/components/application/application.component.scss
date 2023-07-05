@@ -1,0 +1,77 @@
+@import "mixins";
+@import "variables";
+
+.content {
+  box-sizing: border-box;
+  min-height: calc(100% - 64px);
+  width: 100%;
+
+  padding: 20px;
+}
+
+mat-sidenav-container {
+  height: 100%;
+}
+
+mat-sidenav {
+  width: 240px;
+  background-color: $primary;
+}
+
+mat-sidenav-content {
+  padding: 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  box-shadow: 0px 1px 1px -1px rgba(0, 0, 0, 0.1), 0px 1px 1px 0px rgba(0, 0, 0, 0.014), 0px 1px 7px 0px rgba(0, 0, 0, 0.12);
+  background-color: #ffffff;
+  opacity: 0.8;
+  background-size: 10px 10px;
+  background-image: repeating-linear-gradient(45deg, #C1D0B5 0, #C1D0B5 1px, #ffffff 0, #ffffff 50%);
+
+
+  &__actions {
+    margin-left: auto;
+
+    display: flex;
+    gap: 8px;
+  }
+
+  &__icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &--user {
+      background-color: rgba($primary-hover, 0.9);
+    }
+
+    &--cart {
+      background-color: $accent;
+
+      mat-icon {
+        font-size: 1.5rem;
+      }
+    }
+  }
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  margin-top: 8px;
+  width: 150px;
+  box-sizing: border-box;
+  background-color: $white;
+  border: 1px solid $gray-ccc;
+}
+

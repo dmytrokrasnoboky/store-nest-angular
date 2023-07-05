@@ -1,0 +1,72 @@
+<div class='container'>
+  <div class='container__wrap'>
+    <mat-card class='container__box'>
+      <mat-card-title class='container__title'>Log in to continue</mat-card-title>
+      <mat-card-content class='container__content'>
+        <form [formGroup]='form' (ngSubmit)='onSubmit()' class='container__form'>
+          <mat-form-field appearance='fill'>
+            <mat-label>Email</mat-label>
+            <input
+              formControlName='email'
+              autocomplete='username'
+              matInput
+              type='mail'
+            />
+            <mat-icon
+              matPrefix
+            >mail
+            </mat-icon>
+            <mat-error
+              *ngIf="form.controls['email'].hasError('required') && form.controls['email'].touched"
+            >Email is required
+            </mat-error>
+            <mat-error
+              *ngIf="form.controls['email'].hasError('email') && form.controls['email'].touched"
+            >Email is incorrect
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance='fill'>
+            <mat-label>Password</mat-label>
+            <input
+              formControlName='password'
+              autocomplete='username'
+              matInput
+              type='password'
+            />
+            <mat-icon
+              matPrefix
+            >lock
+            </mat-icon>
+            <mat-error
+              *ngIf="form.controls['password'].hasError('required') && form.controls['password'].touched"
+            >Password is required
+            </mat-error>
+          </mat-form-field>
+          <mat-error
+            class='custom-error'
+            [ngClass]="{'custom-error__visible': (responseError | async)}"
+          >Can't find user
+          </mat-error>
+
+          <mat-card-actions class='container__actions'>
+            <button
+              color='primary'
+              mat-flat-button
+              type='submit'
+              [disabled]='form.invalid'
+            >Login
+            </button>
+            <button
+              mat-flat-button
+              routerLink='../register'
+              type='button'
+            >Registration
+            </button>
+          </mat-card-actions>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+

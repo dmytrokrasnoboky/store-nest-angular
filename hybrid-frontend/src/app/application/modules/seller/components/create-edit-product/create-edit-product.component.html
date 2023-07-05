@@ -1,0 +1,165 @@
+<form [formGroup]='form' class='form__container' (submit)='onSubmit()'>
+  <div class='form__field'>
+    <h4 class='form__label'>Produktname *</h4>
+    <mat-form-field appearance='outline' class='form__item'>
+      <input
+        formControlName='name'
+        autocomplete='name'
+        matInput
+        type='text'
+        placeholder='Produktname'
+      />
+      <mat-error>Field is required</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class='form__field'>
+    <h4 class='form__label'>Brandname *</h4>
+    <mat-form-field appearance='outline' class='form__item'>
+      <input
+        formControlName='brandName'
+        autocomplete='brandName'
+        matInput
+        placeholder='Brandname'
+        type='text'
+      />
+      <mat-error>Field is required</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class='form__group' formGroupName='price'>
+    <div class='form__field'>
+      <h4 class='form__label'>Preis *</h4>
+      <mat-form-field appearance='outline' class='form__item'>
+        <input
+          autocomplete='price'
+          formControlName='value'
+          placeholder='Preis'
+          matInput
+          type='text'
+        />
+        <mat-error *ngIf="price.controls['value'].hasError('required') && price.controls['value'].touched">
+          Field is required
+        </mat-error>
+        <mat-error *ngIf="price.controls['value'].hasError('pattern') && price.controls['value'].touched">
+          Use only positive numbers
+        </mat-error>
+        <mat-error *ngIf="price.controls['value'].hasError('min') && price.controls['value'].touched">
+          Min price 1 k.e.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class='form__field'>
+      <h4 class='form__label'>Währung *</h4>
+      <mat-form-field appearance='outline' class='form__item'>
+        <input
+          formControlName='currency'
+          autocomplete='currency'
+          placeholder='Währung'
+          matInput
+          type='text'
+        />
+        <mat-error
+          *ngIf="
+            price.controls['currency'].hasError('required') &&
+            price.controls['currency'].touched
+          "
+        >Field is required
+        </mat-error>
+        <mat-error
+          *ngIf="
+            price.controls['currency'].hasError('pattern') &&
+            price.controls['currency'].touched
+          "
+        >Use only letters. Word length must be 3 characters.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class='form__group'>
+    <div class='form__field'>
+      <h4 class='form__label'>Kategorie *</h4>
+      <mat-form-field appearance='outline' class='form__item'>
+        <mat-select formControlName='category'>
+          <mat-option
+            *ngFor='let item of categories'
+            [value]='item'>
+            {{item | uppercase}}
+          </mat-option>
+        </mat-select>
+        <mat-error>Field is required</mat-error>
+      </mat-form-field>
+    </div>
+    <div class='form__field'>
+      <h4 class='form__label'>Bild Url</h4>
+      <ng-container *ngIf='!imageUrl.length; else uploadedPhoto'>
+        <button
+          mat-flat-button
+          color='primary'
+          type='button'
+          (click)='uploadPhoto()'
+          class='button'
+        >
+          Produktbild auswählen
+        </button>
+      </ng-container>
+      <ng-template #uploadedPhoto>
+        <div class='form__data-container'>
+          <img
+            [src]='this.imageUrl'
+            alt='Upload image'
+            class='form__image'
+            [ngClass]='{isLoading: isImageLoading}'
+          >
+          <div class='form__data-controls'>
+            <button mat-icon-button color='primary' type='button' (click)='uploadPhoto()'>
+              <mat-icon>change_circle</mat-icon>
+            </button>
+            <button mat-icon-button color='warn' type='button' (click)='clearImage()'>
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+        <p class='form__data-name'>
+          {{imageName}}
+        </p>
+      </ng-template>
+      <input
+        #fileSelector
+        class='form__file-input'
+        formControlName='imageUrl'
+        autocomplete='währung'
+        accept='image/*'
+        type='file'
+        (change)='openFileSelector($event)'
+      />
+    </div>
+  </div>
+  <div class='form__field'>
+    <h4 class='form__label'>Beschreibung</h4>
+    <mat-form-field appearance='outline' class='form__item'>
+      <textarea
+        formControlName='description'
+        autocomplete='description'
+        matInput
+        cdkTextareaAutosize
+        placeholder='Beschreibung'
+        cdkAutosizeMinRows='5'
+        cdkAutosizeMaxRows='15'
+        type='text'
+      ></textarea>
+      <mat-error>Field is required</mat-error>
+    </mat-form-field>
+  </div>
+
+  <button
+    class='button'
+    mat-flat-button color='primary'
+    type='submit'
+    [disabled]='form.invalid || isImageLoading'
+  >
+    Änderungen speichern
+  </button>
+</form>
